@@ -1,7 +1,7 @@
 # source: DeepLearning_code_UNet_ResNet_v3.ipnb
 
 import tensorflow as tf
-from tensorflow.keras import layers
+from tensorflow.keras import layers, Model
 
 img_size = (64,64)
 
@@ -134,9 +134,12 @@ def unet_model():
     model = tf.keras.Model(inputs, outputs)
     return model
 
-model = unet_model()
-model.summary()
-
-#plot_model(model, to_file='model_diagram.png', show_shapes=True, rankdir='TB')
-# Display the saved image in the notebook
-#Image('model_diagram.png')
+def get_model(img_size):
+    inputs = layers.Input(shape=img_size)
+    x = layers.Flatten()(inputs)
+    x = layers.Dense(32, activation='relu')(x)
+    x = layers.Dense(1024, activation='relu')(x)
+    x = layers.Dense(4096, activation='relu')(x)
+    outputs = layers.Reshape((64, 64))(x)
+    model = Model(inputs, outputs)
+    return model
