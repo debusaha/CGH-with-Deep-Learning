@@ -134,7 +134,7 @@ def unet_model():
     model = tf.keras.Model(inputs, outputs)
     return model
 
-def get_model(img_size):
+def denseNet_model(img_size):
     inputs = layers.Input(shape=img_size)
     x = layers.Flatten()(inputs)
     x = layers.Dense(32, activation='relu')(x)
