@@ -1,7 +1,8 @@
 import os
 import numpy as np
+import tensorflow as tf
 from tensorflow.keras.callbacks import ModelCheckpoint
-from model import denseNet_model
+from model import denseNet_model, unet_model
 from data_importer import KinoformDataset
 
 # Define paths and parameters

@@ -1,5 +1,4 @@
 # source: DeepLearning_code_UNet_ResNet_v3.ipnb
-
 import tensorflow as tf
 from tensorflow.keras import layers, Model
 
