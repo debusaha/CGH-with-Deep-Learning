@@ -1,14 +1,13 @@
 import os
 import numpy as np
 import tensorflow as tf
-from tensorflow.keras.callbacks import ModelCheckpoint
+from keras.callbacks import ModelCheckpoint
 from model import denseNet_model, unet_model
-from data_importer import KinoformDataset
+from data_importer import KinoformDataGenerator  # Updated import statement
 
 # Define paths and parameters
 image_dir = "G:/My Drive/Colab Notebooks/deep_learning_holography_training_1/images/"
 hologram_dir = "G:/My Drive/Colab Notebooks/deep_learning_holography_training_1/labels/"
-model_output_dir = "trained_models"  # diretory to save trained models
 img_size = (64, 64)
 batch_size = 32
 epochs = 10
@@ -28,13 +27,13 @@ hologram_paths = sorted([
 # Split data into training and validation sets
 validate_samples = 100
 train_image_paths = image_paths[:-validate_samples]
-train_target_img_paths = hologram_paths[:-validate_samples]
-val_input_img_paths = image_paths[-validate_samples:]
-val_target_img_paths = image_paths[-validate_samples:]
+train_hologram_paths = hologram_paths[:-validate_samples]
+validate_image_paths = image_paths[-validate_samples:]
+validate_hologram_paths = hologram_paths[-validate_samples:]
 
-# Instantiate data Sequences
-train_gen = KinoformDataset(batch_size, img_size, train_image_paths, train_target_img_paths)
-val_gen = KinoformDataset(batch_size, img_size, val_input_img_paths, val_target_img_paths)
+# Instantiate data Generators
+train_data_generator = KinoformDataGenerator(batch_size, img_size, train_image_paths, train_hologram_paths)  
+validate_data_generator = KinoformDataGenerator(batch_size, img_size, validate_image_paths, validate_hologram_paths) 
 
 # Load model from model.py
 model = denseNet_model(img_size)
@@ -43,7 +42,7 @@ model = denseNet_model(img_size)
 model.compile(optimizer="adam", loss="mean_squared_error")
 
 # Define callbacks
-callbacks = [ModelCheckpoint(os.path.join(model_output_dir, "DeepLearning_CGH_denseNet.h5"), save_best_only=True)]
+callbacks = [tf.keras.callbacks.ModelCheckpoint("DeepLearning_CGH_denseNet.h5", save_best_only=True)]
 
 # Train model
-model.fit(train_gen, epochs=epochs, validation_data=val_gen, callbacks=callbacks)
+model.fit(train_data_generator, epochs=epochs, validation_data=validate_data_generator, callbacks=callbacks)
