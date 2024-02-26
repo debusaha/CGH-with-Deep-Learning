@@ -3,7 +3,7 @@ import numpy as np
 import tensorflow as tf
 from keras.callbacks import ModelCheckpoint
 from model import denseNet_model, unet_model
-from data_importer import KinoformDataGenerator  # Updated import statement
+from data_importer import KinoformDataGenerator 
 
 # Define paths and parameters
 image_dir = "G:/My Drive/Colab Notebooks/deep_learning_holography_training_1/images/"
@@ -12,7 +12,7 @@ img_size = (64, 64)
 batch_size = 32
 epochs = 10
 
-# Get input and target image paths
+# Get input image and hologram paths
 image_paths = sorted([
     os.path.join(image_dir, file_name)
     for file_name in os.listdir(image_dir)
