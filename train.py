@@ -10,7 +10,7 @@ image_dir = "G:/My Drive/Colab Notebooks/deep_learning_holography_training_1/ima
 hologram_dir = "G:/My Drive/Colab Notebooks/deep_learning_holography_training_1/labels/"
 img_size = (64, 64)
 batch_size = 32
-epochs = 10
+epochs = 30
 
 # Get input image and hologram paths
 image_paths = sorted([
